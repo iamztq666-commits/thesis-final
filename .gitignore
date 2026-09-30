@@ -1,0 +1,14 @@
+.env
+.env.*
+!.env.example
+__pycache__/
+*.pyc
+.venv/
+*.parquet
+*.pkl
+.DS_Store
+Article-Bias-Prediction/
+Qbias/
+summaries_*
+babe_*
+judge_*

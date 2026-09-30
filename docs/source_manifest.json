@@ -1,0 +1,42 @@
+[
+  {
+    "file": "babe_environment_tokens.parquet",
+    "sha256": "06943ec08c480717128a7053425cd9408112b8a62cd2d33ffde77df9e811d037",
+    "rows": 150
+  },
+  {
+    "file": "babe_education_tokens.parquet",
+    "sha256": "12664e059aa418494dbbecb4b57eff773cb6d0966e9e0d5edfb5c8d204a7f8b7",
+    "rows": 150
+  },
+  {
+    "file": "babe_gun_control_and_gun_rights_tokens.parquet",
+    "sha256": "74bd2d73d38b20bf7ae6e3d7ba7fc14d5e836e9b0c3638bf9a9a4bc3a76cbf61",
+    "rows": 150
+  },
+  {
+    "file": "babe_environment_revised_tokens.parquet",
+    "sha256": "811ebd54879bf2a2ac13c426485bd93f67b17d8c907e22fac0d9280e1d1c17a9",
+    "rows": 150
+  },
+  {
+    "file": "judge_environment_orig.parquet",
+    "sha256": "743070d52b801b631d7bd0d2dc6910d075fe9c027416454d93627362f3189bec",
+    "rows": 150
+  },
+  {
+    "file": "judge_environment_orig_ds.parquet",
+    "sha256": "b2ce2ff53d74e48202690fabaf990f35bdab041ee95c549bd30ee89c83578504",
+    "rows": 150
+  },
+  {
+    "file": "archive/legacy_revised_2026-06/judge_environment_revised.parquet",
+    "sha256": "b07858af73785a5f485fcf8960125de67984ae56b31fb0e714a3c5a03d02e887",
+    "rows": 150
+  },
+  {
+    "file": "archive/legacy_revised_2026-06/judge_environment_revised_ds.parquet",
+    "sha256": "c1d83a6402e7403728b3f9e7436cf64a6e3bcd0e8ba2e8d6a5c6d9c48da08a54",
+    "rows": 150
+  }
+]

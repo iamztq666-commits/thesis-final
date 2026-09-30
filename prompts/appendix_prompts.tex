@@ -1,0 +1,353 @@
+% Required packages in the preamble:
+% \usepackage{longtable}
+% \usepackage{array}
+% \usepackage{booktabs}
+% \usepackage{ragged2e}
+% \newcolumntype{L}[1]{>{\RaggedRight\arraybackslash}p{#1}}
+
+\appendix
+
+\chapter{Complete Prompt Templates}
+\label{app:prompts}
+
+This appendix presents the complete prompt templates used in the experiments.
+The placeholder \texttt{\{article\}} represents the processed article text
+inserted at runtime. In the original S3 conditions, the retrieved examples
+were selected dynamically using the article title as the BM25 query. The
+methodological-basis column identifies research that informed each condition;
+it does not imply that the prompt wording was copied from those studies.
+
+\newcommand{\ArticleBlock}{Article: \texttt{\{article\}}\par Summary:}
+
+\newcommand{\FramingDefinitions}{%
+Left-leaning framing may include: emphasis on systemic inequality,
+pro-government-intervention language, anti-corporate rhetoric, or progressive
+social framing.\par
+Centre/neutral framing: balanced reporting without clear partisan framing;
+presents multiple perspectives or sticks to factual reporting without
+editorial slant.\par
+Right-leaning framing may include: emphasis on free-market solutions,
+anti-regulation language, patriotic or traditional-values framing, or
+anti-government-spending rhetoric.}
+
+\newcommand{\NeutralDefinition}{%
+Neutral, factual news reporting is characterised by presenting verifiable
+facts without editorial judgment, covering multiple perspectives, and
+avoiding charged or partisan language.}
+
+\section{Original Prompt Conditions}
+\label{app:original-prompts}
+
+\footnotesize
+\renewcommand{\arraystretch}{1.25}
+\setlength{\tabcolsep}{4pt}
+
+\begin{longtable}{@{}L{0.12\textwidth}L{0.61\textwidth}L{0.21\textwidth}@{}}
+\caption{Original prompt conditions and their methodological basis}
+\label{tab:original-prompts}\\
+\toprule
+Setting & Complete prompt & Methodological basis \\
+\midrule
+\endfirsthead
+\multicolumn{3}{l}{\tablename\ \thetable\ continued}\\
+\toprule
+Setting & Complete prompt & Methodological basis \\
+\midrule
+\endhead
+\midrule
+\multicolumn{3}{r}{Continued on next page}\\
+\endfoot
+\bottomrule
+\endlastfoot
+
+S1 &
+Summarize the following news article in 3 to 5 sentences.\par\medskip
+\ArticleBlock
+&
+Baseline developed for this study.
+\\
+\midrule
+
+S2 &
+Summarize the following news article in 3 to 5 sentences. Your summary should
+faithfully represent the original article's perspective and framing. Preserve
+its political stance as written---do not amplify it, soften it, or shift it
+toward neutrality.\par\medskip
+\ArticleBlock
+&
+Perspective preservation \parencite{liu2024p3sum}.
+\\
+\midrule
+
+S3a &
+The following sentences represent neutral, factual reporting on a related
+topic. Use them as a reference point to gauge the political spectrum. If the
+article you are summarizing is more partisan than these sentences, your
+summary should faithfully reflect that difference---do not move it closer to
+neutral.\par\medskip
+\texttt{\{three BM25-retrieved neutral sentences\}}\par\medskip
+Now summarize the article below in 3 to 5 sentences.\par\medskip
+\ArticleBlock
+&
+BM25 retrieval and external calibration data
+\parencite{robertson2009probabilistic,kiesel2019semeval}.
+\\
+\midrule
+
+S3b &
+The following sentences illustrate how the same topic is reported across the
+political spectrum. Use them to identify where the article you are summarizing
+sits on this spectrum, then summarize it in 3 to 5 sentences while faithfully
+preserving that position.\par\medskip
+{[Left-leaning example]}\par
+\texttt{- \{one BM25-retrieved left-leaning sentence\} [left-leaning]}\par\medskip
+{[Neutral example]}\par
+\texttt{- \{one BM25-retrieved neutral sentence\} [neutral]}\par\medskip
+{[Right-leaning example]}\par
+\texttt{- \{one BM25-retrieved right-leaning sentence\} [right-leaning]}\par\medskip
+Now summarize the article below in 3 to 5 sentences.\par\medskip
+\ArticleBlock
+&
+BM25 retrieval and spectrum calibration
+\parencite{robertson2009probabilistic,kiesel2019semeval}.
+\\
+\midrule
+
+S3c &
+The following sentences illustrate how the same topic is reported across the
+political spectrum. Use them to identify where the article sits on this
+spectrum.\par\medskip
+{[Left-leaning example]}\par
+\texttt{- \{one BM25-retrieved left-leaning sentence\} [left-leaning]}\par\medskip
+{[Neutral example]}\par
+\texttt{- \{one BM25-retrieved neutral sentence\} [neutral]}\par\medskip
+{[Right-leaning example]}\par
+\texttt{- \{one BM25-retrieved right-leaning sentence\} [right-leaning]}\par\medskip
+Summarize the article below in 3 to 5 sentences. Your summary should faithfully
+represent the original article's perspective and framing. Preserve its
+political stance as written---do not amplify it, soften it, or shift it toward
+neutrality.\par\medskip
+\ArticleBlock
+&
+Retrieval-based calibration and perspective preservation
+\parencite{robertson2009probabilistic,kiesel2019semeval,liu2024p3sum}.
+\\
+\midrule
+
+S4 &
+\FramingDefinitions\par\medskip
+Summarize the following news article in 3 to 5 sentences. Identify which of
+the above framings (left / centre / right) best describes the article, then
+write a summary that faithfully preserves that framing---do not amplify or
+remove it. Output the summary only, with no preamble or framing analysis.\par\medskip
+\ArticleBlock
+&
+Political framing and ideology labels
+\parencite{entman1993framing,baly2020detect}. The definitions were
+operationalised for this study.
+\\
+\midrule
+
+S5 &
+Read the article below and complete the two steps.\par\medskip
+Step 1---Stance identification: In one sentence, describe the article's
+political stance and key framing choices (e.g., which perspective it
+emphasises, what language it uses).\par
+Step 2---Faithful summary: Write a 3 to 5 sentence summary that faithfully
+reflects that stance as identified in Step 1---do not amplify it or soften
+it.\par\medskip
+Format your response exactly as:\par
+Stance: \texttt{<one sentence>}\par
+Summary: \texttt{<3--5 sentences>}\par\medskip
+Article: \texttt{\{article\}}
+&
+Step-by-step prompting and perspective preservation
+\parencite{wei2022chain,liu2024p3sum}.
+\\
+\midrule
+
+S6 &
+Read the article and identify its political leaning. Then summarize it in 3
+to 5 sentences while faithfully preserving that leaning.\par\medskip
+\ArticleBlock
+&
+Perspective preservation \parencite{liu2024p3sum}.
+\\
+
+\end{longtable}
+
+\section{Revised Prompt Conditions}
+\label{app:revised-prompts}
+
+The revised experiment retained S1 and introduced eight revised conditions.
+These prompts were developed after the first-stage analysis. Their wording is
+reported below exactly, apart from the replacement of runtime article text by
+the \texttt{\{article\}} placeholder.
+
+\begin{longtable}{@{}L{0.12\textwidth}L{0.61\textwidth}L{0.21\textwidth}@{}}
+\caption{Revised prompt conditions and their methodological basis}
+\label{tab:revised-prompts}\\
+\toprule
+Setting & Complete prompt & Methodological basis \\
+\midrule
+\endfirsthead
+\multicolumn{3}{l}{\tablename\ \thetable\ continued}\\
+\toprule
+Setting & Complete prompt & Methodological basis \\
+\midrule
+\endhead
+\midrule
+\multicolumn{3}{r}{Continued on next page}\\
+\endfoot
+\bottomrule
+\endlastfoot
+
+S1 &
+Summarize the following news article in 3 to 5 sentences.\par\medskip
+\ArticleBlock
+&
+Unchanged baseline from the original experiment.
+\\
+\midrule
+
+S2\textsubscript{r} &
+Summarize the following news article in 3 to 5 sentences.\par
+Your summary should faithfully represent the original article's perspective
+and framing:\par
+- If the article has a partisan stance (left or right leaning), preserve
+it---do not soften or amplify it.\par
+- If the article is neutral or centrist, write a neutral summary---do not
+introduce any partisan framing.\par\medskip
+\ArticleBlock
+&
+Symmetric revision developed from the first-stage findings; perspective
+preservation \parencite{liu2024p3sum}.
+\\
+\midrule
+
+S3a\textsubscript{r} &
+\NeutralDefinition\par\medskip
+Use this as a calibration baseline. If the article you are summarising departs
+from neutral reporting---in a left or right direction---your summary should
+faithfully reflect that departure. If the article is neutral, write a neutral
+summary.\par\medskip
+Now summarise the article below in 3 to 5 sentences.\par\medskip
+\ArticleBlock
+&
+Definition-based calibration developed for this study; political framing
+\parencite{entman1993framing}.
+\\
+\midrule
+
+S3b\textsubscript{r} &
+Political news reporting falls on a spectrum. Use the following as a
+reference:\par\medskip
+\FramingDefinitions\par\medskip
+Identify where this article sits on the spectrum, then summarise it in 3 to 5
+sentences while faithfully preserving that position. Do not shift it toward
+or away from the centre.\par\medskip
+\ArticleBlock
+&
+Definition-based spectrum calibration; framing and ideology labels
+\parencite{entman1993framing,baly2020detect}.
+\\
+\midrule
+
+S3c\textsubscript{r} &
+Political news reporting falls on a spectrum. Use the following as a
+reference:\par\medskip
+\FramingDefinitions\par\medskip
+Using this spectrum as a guide, summarise the article below in 3 to 5
+sentences:\par
+- If it is left or right leaning, preserve that framing faithfully---do not
+soften or amplify it.\par
+- If it is neutral or centrist, write a neutral summary---do not introduce
+any partisan framing.\par\medskip
+\ArticleBlock
+&
+Spectrum calibration and perspective preservation
+\parencite{entman1993framing,baly2020detect,liu2024p3sum}.
+\\
+\midrule
+
+S4\textsubscript{r} &
+\FramingDefinitions\par\medskip
+Read the article below. First, identify which framing (left / centre / right)
+best describes it. Then write a 3 to 5 sentence summary that faithfully
+preserves that framing---do not amplify or remove it.\par\medskip
+Format your response as:\par
+Framing: \texttt{<left / centre / right>}\par
+Summary: \texttt{<3--5 sentences>}\par\medskip
+Article: \texttt{\{article\}}
+&
+Explicit classification followed by generation; framing and perspective
+preservation \parencite{entman1993framing,liu2024p3sum}.
+\\
+\midrule
+
+S5\textsubscript{r} &
+Read the article below and complete the two steps.\par\medskip
+Step 1---Stance: Rate the article's political lean:\par
+$-2$ = strongly left; $-1$ = leans left; $0$ = neutral/centre;
+$+1$ = leans right; $+2$ = strongly right.\par
+Then cite one specific phrase or framing choice from the article that
+justifies your rating.\par\medskip
+Step 2---Summary: Write a 3 to 5 sentence summary.\par
+- If rating $\neq 0$: preserve the specific framing you cited---do not soften
+or amplify it.\par
+- If rating $=0$: write a factual, neutral summary---do not introduce any
+partisan framing.\par\medskip
+Format your response as:\par
+Stance: \texttt{<rating> --- <one-sentence evidence>}\par
+Summary: \texttt{<3--5 sentences>}\par\medskip
+Article: \texttt{\{article\}}
+&
+Step-by-step prompting and evidence-grounded perspective preservation
+\parencite{wei2022chain,liu2024p3sum}.
+\\
+\midrule
+
+S5\textsubscript{adv} &
+Read the article below and complete the three steps.\par\medskip
+Step 1---Evidence: Quote 2 to 3 specific phrases or sentences from the article
+that most clearly signal its political framing (word choice, emphasis, or
+perspective). Use the article's exact words.\par\medskip
+Step 2---Lean rating: Based ONLY on the evidence from Step 1, rate the overall
+political lean:\par
+$-2$ = strongly left; $-1$ = leans left; $0$ = neutral/centre;
+$+1$ = leans right; $+2$ = strongly right.\par
+In one sentence, explain how the quoted phrases support this rating.\par\medskip
+Step 3---Summary: Write a 3 to 5 sentence summary.\par
+- If lean $\neq 0$: the summary must reflect the framing signals identified
+in Step 1---do not soften, amplify, or substitute with different partisan
+framing.\par
+- If lean $=0$: write a factual, balanced summary---do not introduce any
+partisan framing.\par\medskip
+Format your response as:\par
+Evidence: \texttt{["<phrase 1>", "<phrase 2>", ...]}\par
+Lean: \texttt{<rating> --- <one-sentence justification>}\par
+Summary: \texttt{<3--5 sentences>}\par\medskip
+Article: \texttt{\{article\}}
+&
+Evidence-first extension developed in this study, informed by step-by-step
+prompting and perspective preservation
+\parencite{wei2022chain,liu2024p3sum}.
+\\
+\midrule
+
+S6\textsubscript{r} &
+Read the article and identify its political leaning (left / centre / right).\par
+Then summarise it in 3 to 5 sentences:\par
+- If left or right leaning: preserve that framing faithfully---do not amplify
+or soften it.\par
+- If centre or neutral: write a factual, neutral summary---do not introduce
+any partisan framing.\par\medskip
+\ArticleBlock
+&
+Symmetric revision developed from the first-stage findings; perspective
+preservation \parencite{liu2024p3sum}.
+\\
+
+\end{longtable}
+
+\normalsize

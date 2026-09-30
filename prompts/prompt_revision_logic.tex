@@ -1,0 +1,89 @@
+% Insert in the Methodology chapter after the prompt-condition overview.
+% Requires: booktabs, tabularx, array, ragged2e.
+
+Prior literature supplied the conceptual and methodological building blocks for
+this study, but it did not determine the exact wording of the prompts. The
+specific prompt formulations, component combinations, and revisions were
+implemented by the author. Table~\ref{tab:prompt-revision-logic} distinguishes
+the methodological basis of each revision from the contribution made in the
+present study.
+
+\begin{table}[ht]
+\centering
+\small
+\renewcommand{\arraystretch}{1.2}
+\caption{Methodological basis and author-designed prompt revisions}
+\label{tab:prompt-revision-logic}
+\begin{tabularx}{\textwidth}{@{}p{0.13\textwidth}X X X@{}}
+\toprule
+Revision & Problem or motivation & What the literature supports & Author-designed change \\
+\midrule
+S2 $\rightarrow$ S2$_r$ &
+The original instruction specified how to preserve partisan framing but did not explicitly define the treatment of neutral articles. &
+Perspective preservation as a summarisation objective (Liu et al., 2024). &
+Added a symmetric neutral branch: partisan framing is preserved when present, while neutral articles receive a neutral summary. \\
+\addlinespace
+S3a $\rightarrow$ S3a$_r$ &
+The original condition used dynamically retrieved neutral sentences as a calibration reference. &
+BM25 as a relevance-based retrieval method (Robertson and Zaragoza, 2009); framing as a way of analysing emphasis and perspective (Entman, 1993). &
+Replaced retrieved examples with an explicit definition of neutral reporting to reduce dependence on cross-dataset retrieval. \\
+\addlinespace
+S3b $\rightarrow$ S3b$_r$ &
+The original prompt presented retrieved sentences as examples of how the same topic is reported across the political spectrum. &
+Left--centre--right political ideology as an article-level classification task (Baly et al., 2020); framing theory (Entman, 1993). &
+Replaced retrieved spectrum examples with explicit left-, centre-, and right-leaning framing definitions. \\
+\addlinespace
+S3c $\rightarrow$ S3c$_r$ &
+The original condition combined spectrum examples with a faithfulness instruction but did not explicitly specify the neutral case. &
+Perspective preservation (Liu et al., 2024) and political-ideology categories (Baly et al., 2020). &
+Combined definition-based spectrum guidance with the symmetric neutral branch used in S2$_r$. \\
+\addlinespace
+S4 $\rightarrow$ S4$_r$ &
+The original prompt asked for framing identification but required summary-only output, making the classification step difficult to audit. &
+Framing and article-level ideology categories (Entman, 1993; Baly et al., 2020). &
+Exposed the framing label in a structured response containing a ``Framing'' field and a ``Summary'' field. \\
+\addlinespace
+S5 $\rightarrow$ S5$_r$ &
+The original two-step prompt did not constrain the stance judgement to a calibrated scale or an explicit textual cue. &
+Step-by-step prompting and intermediate reasoning (Wei et al., 2022). &
+Added a $-2$ to $+2$ stance scale, required one supporting phrase, and specified a neutral branch for rating 0. \\
+\addlinespace
+S5$_{adv}$ &
+The revised S5 still left the relationship between evidence, stance judgement, and summary implicit. &
+Stepwise decomposition (Wei et al., 2022) and rationale-oriented evidence extraction. &
+Introduced an evidence-first sequence: extract source phrases, rate the political lean based only on those phrases, and generate the summary. \\
+\addlinespace
+S6 $\rightarrow$ S6$_r$ &
+The original instruction to identify and preserve leaning did not provide a neutral option and could encourage amplification. &
+Preservation of the source perspective as a summarisation objective (Liu et al., 2024). &
+Distinguished preservation from amplification and added an explicit neutral branch. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+The revised prompts should therefore be interpreted as author-designed,
+theory-informed interventions rather than direct replications of the cited
+studies. Their effectiveness is evaluated empirically in the second-stage
+experiment.
+
+\subsection*{Statistical analysis}
+
+Revision effects were tested using paired comparisons on the same 150 articles:
+each revised condition was compared with its corresponding original condition
+(S2$_r$ vs.~S2, S3a$_r$ vs.~S3a, S3b$_r$ vs.~S3b, S3c$_r$ vs.~S3c,
+S4$_r$ vs.~S4, S5$_r$ vs.~S5, S5$_{adv}$ vs.~S5, and S6$_r$ vs.~S6).
+Suppression and Injection were analysed with two-sided exact McNemar tests,
+and BERTScore with paired two-sided Wilcoxon signed-rank tests.
+
+Because each outcome involved eight simultaneous prompt comparisons, reporting
+the raw $p$-values would inflate the probability of at least one false
+positive within that outcome family. We therefore applied Holm's step-down
+procedure separately to the eight tests for Suppression, the eight tests for
+Injection, and the eight tests for BERTScore. Holm correction controls the
+family-wise error rate while being less conservative than a one-step
+Bonferroni correction (Holm, 1979). We report the resulting adjusted
+$p$-values and use 0.05 as the significance threshold.
+
+\noindent\textit{Reference:} Holm, S. (1979). A simple sequentially rejective
+multiple test procedure. \textit{Scandinavian Journal of Statistics}, 6(2),
+65--70. \url{https://doi.org/10.2307/4615733}.
